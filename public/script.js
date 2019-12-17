@@ -1,14 +1,17 @@
-const show = async() => {
-    const data = await fetchData();
-    const root = document.getElementById("root");
-    const list = data.map(elem => (
-        `<tr>
+const show = async () => {
+  const data = await fetchData();
+  const root = document.getElementById("root");
+  //готовим массив строк для отрисовки таблицы
+  const list = data.map(
+    elem =>
+      `<tr>
             <td>${elem.id}</td>
             <td>${elem.name}</td>
             <td>${elem.group1}</td>
           </tr>`
-        ));
-    root.innerHTML = `<table class="table table-striped table-sm">
+  );
+  //рисуем таблицу
+  root.innerHTML = `<table class="table table-striped table-sm"> 
     <thead>
       <tr>
         <th>id</th>
@@ -17,42 +20,43 @@ const show = async() => {
       </tr>
     </thead>
     <tbody>
-    ${list.join('')}
-    </tbody>` 
-
-}
-
-const fetchData= async() => 
-{
-const data = await fetch('/api/').then(response => {
-        if(response.ok) {
-            return response.json()
-        }
-    }).then(data => {
-        return data;
-    })
-    return data;
-}
-
-document.getElementById('registerForm').onsubmit = async (e) => {
-    e.preventDefault();
-    const {elements} = e.target;
-    const data = {
-        name: elements[0].value,
-        group: elements[1].value
+    ${
+      list.join("") //объединяем массив в строку
     }
-    console.log(data);
-    await fetch('/api/', {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
+    </tbody>`;
+};
+
+const fetchData = async () => { 
+  const fetched = await fetch("/api/") //промис, если мы зашли, и все нормас, мы возвращаем данные
+    .then(response => { //дата с базы данных (апи)
+      if (response.ok) {
+        return response.json(); //превращаем в объект (потому что это было строкой)
+      }
+    })
+    .then(data => { 
+      return data;
     });
-    console.log(e.target);
-    console.log(elements);
-    Array.prototype.forEach.call(e.target.elements, elem => {
-        elem.value = '';
-    });
-    await show();
+  return fetched;
+};
+
+document.getElementById("registerForm").onsubmit = async e => { //получили форму и сделали так, чтоб на онсабмите выполнялась ф-ция
+  e.preventDefault(); //не даем перезагрузиться странице
+  const { elements } = e.target; //получаем элементы
+  const data = {
+    name: elements[0].value, //разделяем наши инпуты
+    group: elements[1].value
+  };
+  console.log(data);
+  await fetch("/api/", { 
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data) //превращаем его в строку
+  }); //отправляем на сервер данные
+  Array.prototype.forEach.call(e.target.elements, elem => {
+    //делает поля пустыми
+    elem.value = "";
+  });
+  await show();
 };
