@@ -24,7 +24,7 @@ const show = async() => {
 
 const fetchData= async() => 
 {
-const data = await fetch('http://localhost:3000/api/').then(response => {
+const data = await fetch('/api/').then(response => {
         if(response.ok) {
             return response.json()
         }
@@ -42,7 +42,7 @@ document.getElementById('registerForm').onsubmit = async (e) => {
         group: elements[1].value
     }
     console.log(data);
-    await fetch('http://localhost:3000/api/', {
+    await fetch('/api/', {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
