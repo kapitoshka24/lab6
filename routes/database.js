@@ -10,5 +10,6 @@ db.all("SELECT * FROM Kids", (err, rows)=>(res.send(rows)))
 router.post('/', (req, res) => {
     const {name, group} = req.body;
     db.run(`INSERT INTO Kids VALUES (NULL, '${name}','${group}')`);
+    res.sendStatus(200);
 })
 module.exports = router;

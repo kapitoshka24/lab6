@@ -1,6 +1,13 @@
 const show = async() => {
     const data = await fetchData();
     const root = document.getElementById("root");
+    const list = data.map(elem => (
+        `<tr>
+            <td>${elem.id}</td>
+            <td>${elem.name}</td>
+            <td>${elem.group1}</td>
+          </tr>`
+        ));
     root.innerHTML = `<table class="table table-striped table-sm">
     <thead>
       <tr>
@@ -10,13 +17,7 @@ const show = async() => {
       </tr>
     </thead>
     <tbody>
-    ${data.map(elem => (
-    `<tr>
-        <td>${elem.id}</td>
-        <td>${elem.name}</td>
-        <td>${elem.group1}</td>
-      </tr>`
-    ))}
+    ${list.join('')}
     </tbody>` 
 
 }
@@ -33,7 +34,7 @@ const data = await fetch('http://localhost:3000/api/').then(response => {
     return data;
 }
 
-document.getElementById('registerForm').addEventListener('submit', async (e) => {
+document.getElementById('registerForm').onsubmit = async (e) => {
     e.preventDefault();
     const {elements} = e.target;
     const data = {
@@ -47,10 +48,11 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(data)
-    })
-    e.target.elements.forEach(elem => {
+    });
+    console.log(e.target);
+    console.log(elements);
+    Array.prototype.forEach.call(e.target.elements, elem => {
         elem.value = '';
     });
-
     await show();
-})
+};
