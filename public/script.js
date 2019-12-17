@@ -14,9 +14,9 @@ const show = async () => {
   root.innerHTML = `<table class="table table-striped table-sm"> 
     <thead>
       <tr>
-        <th>id</th>
-        <th>Name</th>
-        <th>Group</th>
+        <th>№</th>
+        <th>Ім'я</th>
+        <th>Група</th>
       </tr>
     </thead>
     <tbody>
