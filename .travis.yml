@@ -9,3 +9,4 @@ deploy:
   provider: heroku
   api_key: $key
   app: lab-6-kovtunets
+  
