@@ -42,6 +42,12 @@ const fetchData = async () => {
 document.getElementById("registerForm").onsubmit = async e => { //получили форму и сделали так, чтоб на онсабмите выполнялась ф-ция
   e.preventDefault(); //не даем перезагрузиться странице
   const { elements } = e.target; //получаем элементы
+  const coll = Array.from(e.target.elements).slice(0,2); //не дает заполнить пустые
+  if (!coll.every((elem) => elem.value !== '')
+  ) {
+    alert("Ви не заповнили всі поля реєстрації! Спробуйте ще раз!");
+    return;
+  }
   const data = {
     name: elements[0].value, //разделяем наши инпуты
     group: elements[1].value
